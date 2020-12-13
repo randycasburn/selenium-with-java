@@ -14,32 +14,28 @@ public class PageObject extends ChromeDriverUtils {
     }
 
     public List<HashMap<String,String>> getLinks() {
-        List<HashMap<String,String>> menuItems = new ArrayList<>();
+        List<HashMap<String,String>> menuItems;
         try {
-            List<WebElement> aboutMenuListItems = this.driver.findElements(By.xpath("//ul[@id=\"menu-about\"]//li"));
-            List<WebElement> resourceMenuListItems = this.driver.findElements(By.xpath("//ul[@id=\"menu-resources\"]//li"));
-            for(int i = 1; i <= aboutMenuListItems.size(); i++) {
-                HashMap<String,String> temp = new HashMap<>();
-                WebElement anchor = this.driver.findElement(By.xpath("//ul[@id=\"menu-about\"]//li["+ i +"]//span[1]//a[1]"));
-                String anchorText = anchor.getText();
-                String anchorLink = anchor.getAttribute("href");
-
-                temp.put("text", anchorText);
-                temp.put("link", anchorLink);
-                menuItems.add(temp);
-            }
-            for(int i = 1; i <= resourceMenuListItems.size(); i++) {
-                HashMap<String,String> temp = new HashMap<>();
-                WebElement anchor = this.driver.findElement(By.xpath("//ul[@id=\"menu-resources\"]//li["+ i +"]//span[1]//a[1]"));
-                String anchorText = anchor.getText();
-                String anchorLink = anchor.getAttribute("href");
-                temp.put("text", anchorText);
-                temp.put("link", anchorLink);
-                menuItems.add(temp);
-            }
+            menuItems = findAndCreateHashMap("menu-about");
+            menuItems.addAll(findAndCreateHashMap("menu-resources"));
         } catch (Exception ex) {
             this.closePage();
             throw ex;
+        }
+        return menuItems;
+    }
+
+    private List<HashMap<String,String>> findAndCreateHashMap(String menuName){
+        List<HashMap<String,String>> menuItems = new ArrayList<>();
+        List<WebElement> menuItemsList = this.driver.findElements(By.xpath("//ul[@id=\""+menuName+"\"]//li"));
+        HashMap<String,String> details = new HashMap<>();
+        for(int i = 1; i <= menuItemsList.size(); i++) {
+            WebElement anchor = this.driver.findElement(By.xpath("//ul[@id=\""+menuName+"\"]//li["+ i +"]//span[1]//a[1]"));
+            String anchorText = anchor.getText();
+            String anchorLink = anchor.getAttribute("href");
+            details.put("text", anchorText);
+            details.put("link", anchorLink);
+            menuItems.add(details);
         }
         return menuItems;
     }
