@@ -1,11 +1,5 @@
 package com.company;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.chrome.ChromeDriver;
-import org.openqa.selenium.chrome.ChromeOptions;
-
-import java.util.*;
-
 public class Main {
 
     public static void main(String[] args) {
@@ -19,9 +13,7 @@ public class Main {
 
         System.out.println(page.getOrgAddress());
         System.out.println("################");
-        page.getLinks().stream().forEach(entry->{
-            System.out.println(entry);
-        });
+        page.getLinks().forEach(System.out::println);
         page.closePage();
     }
 

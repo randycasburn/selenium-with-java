@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
 
+@SuppressWarnings("unused")
 public class ChromeDriverUtils {
     private boolean session;
     public WebDriver driver;
@@ -38,12 +39,8 @@ public class ChromeDriverUtils {
     }
 
     private void quitWebDriver() {
-        try {
-            this.driver.quit();
-            System.out.println("######################################\nWebDriver shutdown!\n");
-        } catch (Exception ex) {
-            throw ex;
-        }
+        this.driver.quit();
+        System.out.println("######################################\nWebDriver shutdown!\n");
     }
 
     private void buildDriver(Boolean headless) {
